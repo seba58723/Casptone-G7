@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUIZASOFT - Selección de Especie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0d1117; color: #cdd9e5; }
+        .fruit-card {
+            background-color: rgba(18, 22, 28, 0.96);
+            border: 1px solid #3f444a;
+            border-radius: 12px;
+            display: block;
+            text-decoration: none;
+            color: #cdd9e5;
+            transition: 0.3s;
+        }
+        .fruit-card:hover {
+            border-color: #238636;
+            background-color: #161b22;
+            color: white;
+            transform: translateY(-5px);
+        }
+        .icon-fruta { font-size: 3rem; }
+        .icon-fruta img {
+            height: 64px;
+            width: 64px;
+            object-fit: contain;
+        }
+        .texto-acento { color: #238636; }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-4 d-flex justify-content-end align-items-center">
+        <span class="badge bg-dark border border-secondary p-2 me-3" style="font-size: 0.9rem;">
+            Operario: <span class="text-success">{{ request.session.usuario_activo }}</span>
+        </span>
+        <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger px-3">
+            <i class="fas fa-sign-out-alt me-1"></i>Salir
+        </a>
+    </div>
+
+    <div class="container mt-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold texto-acento">Selección de Especie</h2>
+            <p class="text-secondary">Toque la fruta que va a recepcionar para abrir el formulario de calidad</p>
+        </div>
+
+        {% if error_sybase %}
+        <div class="alert alert-danger text-center shadow-lg border-danger mb-4">
+            <h5 class="fw-bold"><i class="fas fa-bug me-2"></i>Error ejecutando el Procedimiento:</h5>
+            <p class="mb-0 text-dark">{{ error_sybase }}</p>
+        </div>
+        {% endif %}
+
+        <div class="row justify-content-center text-center g-4">
+            {% for especie in especies %}
+            <div class="col-md-3 col-6">
+                <a href="{% url 'recepcion_dinamica' especie.id %}" class="fruit-card p-4 h-100 shadow-lg">
+                    <div class="icon-fruta mb-2">
+                        {% if 'LIM' in especie.nombre|upper and 'CLEM' not in especie.nombre|upper %}
+                            <img src="{% static 'img/frutas/limon.png' %}" alt="{{ especie.nombre }}">
+                        {% elif 'NARAN' in especie.nombre|upper %}
+                            <img src="{% static 'img/frutas/naranja.png' %}" alt="{{ especie.nombre }}">
+                        {% elif 'CLEMEN' in especie.nombre|upper %}
+                            <img src="{% static 'img/frutas/clementina.png' %}" alt="{{ especie.nombre }}">
+                        {% elif 'POMEL' in especie.nombre|upper %}🍈
+                        {% elif 'MANZA' in especie.nombre|upper %}🍎
+                        {% elif 'CEREZ' in especie.nombre|upper %}🍒
+                        {% elif 'UV' in especie.nombre|upper %}🍇
+                        {% else %}📦{% endif %}
+                    </div>
+                    <h4 class="m-0 fw-bold text-uppercase">{{ especie.nombre }}</h4>
+                </a>
+            </div>
+            {% empty %}
+            {% if not error_sybase %}
+            <div class="col-12 text-center text-warning mt-5">
+                <h4><i class="fas fa-exclamation-triangle me-2"></i>No hay especies disponibles</h4>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

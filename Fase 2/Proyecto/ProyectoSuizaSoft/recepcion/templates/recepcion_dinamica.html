@@ -1,0 +1,1069 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SUIZASOFT - Control de Calidad - Recepción y Liberación de {{ nombre_fruta }}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍋</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --bg-panel: rgba(18, 22, 28, 0.96); 
+            --bg-input: #0a0d12; 
+            --border-color: #3f444a; 
+            --text-main: #cdd9e5; 
+            --brand-green: #238636; 
+            --accent-fruit: #f1c40f; 
+        }
+        body { 
+            background-color: #0d1117; 
+            color: var(--text-main); 
+            font-family: system-ui, sans-serif; 
+            padding: 20px; 
+        }
+        
+        .header-oficial {
+            background: linear-gradient(135deg, #1c2128 0%, #161b22 100%);
+            border: 2px solid var(--brand-green);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header-oficial h1 {
+            color: var(--brand-green);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .header-oficial p {
+            color: #8b949e;
+            font-size: 0.9rem;
+            margin: 5px 0 0;
+        }
+        
+        .glass-panel { 
+            background-color: var(--bg-panel); 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            padding: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+        }
+        
+        label { 
+            color: #8b949e !important; 
+            font-weight: 600; 
+            display: block; 
+            margin-bottom: 5px; 
+            font-size: 0.75rem; 
+            letter-spacing: 0.5px; 
+            text-transform: uppercase; 
+        }
+        
+        .form-control, .form-select { 
+            background-color: var(--bg-input) !important; 
+            color: #ffffff !important; 
+            border: 1px solid var(--border-color) !important; 
+            font-size: 0.85rem; 
+        }
+        
+        .nro-planilla { 
+            background-color: var(--bg-input) !important; 
+            border: 2px solid var(--brand-green) !important; 
+            color: var(--brand-green) !important; 
+            font-weight: bold; 
+            text-align: center; 
+        }
+        
+        .guia-input { 
+            border: 2px solid var(--accent-fruit) !important; 
+            color: var(--accent-fruit) !important; 
+            font-weight: bold; 
+            text-align: center; 
+        }
+        
+        .accordion-item { 
+            background-color: transparent !important; 
+            border: 1px solid var(--border-color) !important; 
+            margin-bottom: 10px; 
+            border-radius: 6px !important; 
+        }
+        
+        .accordion-button { 
+            background-color: #12161c !important; 
+            color: #ffffff !important; 
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .accordion-button:not(.collapsed) { 
+            color: var(--accent-fruit) !important; 
+            background-color: #1c2128 !important; 
+        }
+        
+        .table-dark { background-color: #0d1117 !important; }
+        .table-hover tbody tr:hover { background-color: rgba(35, 134, 54, 0.15) !important; }
+        
+        .btn-success { 
+            background-color: var(--brand-green); 
+            border: none; 
+        }
+        
+        .btn-success:hover { 
+            background-color: #2ea043; 
+        }
+        
+        input[type=date]::-webkit-calendar-picker-indicator,
+        input[type=time]::-webkit-calendar-picker-indicator { 
+            filter: invert(1) !important; 
+            cursor: pointer !important; 
+            opacity: 1 !important; 
+        }
+        
+        .form-control-sm,
+        .form-select-sm,
+        input[type="date"],
+        input[type="time"],
+        input[type="number"],
+        input[type="text"],
+        select {
+            height: 24px !important;
+            padding: 2px 4px !important;
+            font-size: 0.75rem !important;
+            line-height: 1 !important;
+            min-height: 24px !important;
+        }
+
+        .btn-sm,
+        .input-group-sm .btn {
+            padding: 2px 6px !important;
+            font-size: 0.7rem !important;
+            line-height: 1 !important;
+            height: 24px !important;
+            min-height: 24px !important;
+        }
+        
+        .candado-info {
+            background-color: rgba(10, 13, 18, 0.5);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            color: #6e7681;
+        }
+
+        #sec0 .form-control,
+        #sec0 .form-select {
+            padding: 3px 8px !important;
+            height: 30px !important;
+            font-size: 0.8rem !important;
+        }
+        #sec0 .input-group-sm > .form-control,
+        #sec0 .input-group-sm > .btn {
+            height: 30px !important;
+            padding: 3px 8px !important;
+        }
+
+        .badge-fruta-actual {
+            background-color: rgba(241, 196, 15, 0.08);
+            border: 1px solid var(--accent-fruit);
+            color: var(--accent-fruit);
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        .badge-fruta-actual img {
+            height: 28px;
+            width: 28px;
+            object-fit: contain;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-oficial">
+    <h1>🍋 CONTROL DE CALIDAD</h1>
+    <p>Sistema de Control de Calidad - SUIZASOFT v2.0</p>
+    <p style="margin-top: 10px; font-size: 0.85rem;">
+        Operario: <strong style="color: var(--brand-green);">{{ request.session.usuario_activo }}</strong>
+    </p>
+</div>
+
+<div class="container-lg">
+    <div class="glass-panel">
+        
+        <form id="formControl" action="#">
+            {% csrf_token %}
+            <input type="hidden" name="lote_id_hidden" id="lote_id_hidden" value="0">
+            <input type="hidden" id="especie_id_hidden" value="{{ especie_id }}">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge-fruta-actual">
+                        {% if imagen_fruta %}
+                            <img src="{% static 'img/frutas/' %}{{ imagen_fruta }}" alt="{{ nombre_fruta }}">
+                        {% else %}
+                            <i class="fas fa-lemon me-2"></i>
+                        {% endif %}
+                        {{ nombre_fruta }}
+                    </span>
+                    <a href="{% url 'seleccion_frutas' %}" class="btn btn-sm btn-outline-secondary fw-bold">
+                        <i class="fas fa-exchange-alt me-1"></i> Cambiar Especie
+                    </a>
+                    <button type="button" class="btn btn-sm btn-outline-info fw-bold ms-2" id="btnConsultarPlanilla">
+                        <i class="fas fa-search me-1"></i> Consultar Planilla
+                    </button>
+                </div>
+                <div>
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-outline-danger fw-bold">
+                        <i class="fas fa-sign-out-alt me-1"></i> Salir
+                    </a>
+                </div>
+            </div>
+
+            <div class="accordion" id="planilla">
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sec0">
+                            📋 DATOS PRINCIPALES (Encabezado de Recepción)
+                        </button>
+                    </h2>
+                    <div id="sec0" class="accordion-collapse collapse show">
+                        <div class="accordion-body p-3">
+
+                            <div class="d-flex justify-content-end mb-3 gap-2 border-bottom border-secondary pb-3">
+                                <button type="button" class="btn btn-outline-warning shadow-sm fw-bold" data-limpiar="encabezado">
+                                    <i class="fas fa-eraser me-1"></i> Limpiar Encabezado
+                                </button>
+                                <button type="button" class="btn btn-success shadow-sm fw-bold" id="btnGuardarEncabezado">
+                                    <i class="fas fa-save me-1"></i> Guardar Encabezado
+                                </button>
+                            </div>
+
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">EXPORTADOR (CLIENTE)</label>
+                                    <select class="form-select form-select-sm" id="selExp" name="exportador_id" required>
+                                        <option value="">Seleccione...</option>
+                                        {% for exp in exportadores_db %}
+                                        <option value="{{ exp.id }}">{{ exp.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">PLANTA</label>
+                                    <select class="form-select form-select-sm" name="planta_id" id="selPlanta" required>
+                                        {% for p in plantas_db %}
+                                        <option value="{{ p.id }}">{{ p.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">Nº PLANILLA</label>
+                                    <input type="text" id="nro_planilla" name="nro_planilla" class="form-control form-control-sm nro-planilla" maxlength="8" placeholder="Escriba N° y Enter" value="0" title="Escriba un N° de planilla y presione Enter para consultarla">
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">GUÍA</label>
+                                    <input type="text" id="guia_despacho" name="guia_despacho" class="form-control form-control-sm guia-input" readonly placeholder="---">
+                                </div>
+                            </div>
+
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">PRODUCTOR</label>
+                                    <select class="form-select form-select-sm" id="selProd" name="productor_id" required>
+                                        <option value="">Seleccione Exportador primero...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">VARIEDAD</label>
+                                    <select class="form-select form-select-sm" id="selVar" name="variedad_id" required>
+                                        {% for var in variedades_db %}
+                                        <option value="{{ var.id }}">{{ var.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">FECHA COSECHA</label>
+                                    <input type="date" name="fecha_cosecha" id="f_cosecha" class="form-control form-control-sm">
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">RECEPCIÓN</label>
+                                    <input type="date" name="fecha_recepcion" id="f_recepcion" class="form-control form-control-sm" value="{{ fecha_hoy }}">
+                                </div>
+                            </div>
+
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">HUERTO (PREDIO / CSG)</label>
+                                    <select class="form-select form-select-sm" id="selPred" name="predio_id" required>
+                                        <option value="">Seleccione Productor primero...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">TIPO MERCADO</label>
+                                    <div class="d-flex gap-2" style="margin-top: 4px;">
+                                        <div class="form-check" style="margin: 0;">
+                                            <input class="form-check-input" type="radio" name="mercado" value="1" id="mercado_exp" checked style="margin-top: 4px;">
+                                            <label class="form-check-label" for="mercado_exp" style="font-size: 0.75rem; margin-bottom: 0;">EXPORTACIÓN</label>
+                                        </div>
+                                        <div class="form-check" style="margin: 0;">
+                                            <input class="form-check-input" type="radio" name="mercado" value="2" id="mercado_int" style="margin-top: 4px;">
+                                            <label class="form-check-label" for="mercado_int" style="font-size: 0.75rem; margin-bottom: 0;">INTERNO</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">FECHA INSPECCIÓN</label>
+                                    <input type="date" name="fecha_inspeccion" id="f_inspeccion" class="form-control form-control-sm" value="{{ fecha_hoy }}">
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">HORA LLEGADA</label>
+                                    <input type="time" name="hora_llegada" id="h_llegada" class="form-control form-control-sm">
+                                </div>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">CUARTEL / SDP</label>
+                                    <select class="form-select form-select-sm" id="selCuartel" name="cuartel_id" required>
+                                        <option value="">Seleccione Huerto primero...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label style="font-size: 0.65rem;">LOTE GRANEL</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="lote" id="lote_input" class="form-control text-warning fw-bold" placeholder="000000" required>
+                                        <button class="btn btn-warning fw-bold" type="button" id="btnBuscarLoteExacto">
+                                            <i class="fas fa-search text-dark"></i>
+                                        </button>
+                                        <button class="btn btn-info fw-bold" type="button" id="btnVerLotes">
+                                            <i class="fas fa-list text-dark"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">BULTOS</label>
+                                    <input type="number" name="bultos" id="bultos_input" class="form-control form-control-sm text-center" placeholder="0" min="0">
+                                </div>
+                                <div class="col-md-2">
+                                    <label style="font-size: 0.65rem;">KG NETOS</label>
+                                    <input type="text" name="kg_neto" id="kilos_input" class="form-control form-control-sm text-warning fw-bold text-center" placeholder="0.0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#secColor">
+                            🎨 I. DISTRIBUCIÓN DE COLOR Y MADUREZ
+                        </button>
+                    </h2>
+                    <div id="secColor" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="d-flex justify-content-end mb-3 gap-2 border-bottom border-secondary pb-2">
+                                <button type="button" class="btn btn-sm btn-outline-warning" data-limpiar="color">
+                                    <i class="fas fa-eraser me-1"></i> Limpiar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success shadow-sm" id="btnGuardarColor">
+                                    <i class="fas fa-save me-1"></i> Guardar Colores
+                                </button>
+                            </div>
+                            
+                            <div class="row g-3" id="contenedorColor">
+                                <div class="candado-info">
+                                    <i class="fas fa-lock fa-2x mb-2"></i>
+                                    <h6 class="text-uppercase mb-1">Lote Nuevo (En Espera)</h6>
+                                    <small>Presiona <b>Guardar Encabezado</b> para generar las cajas.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#secCalibres">
+                            📏 II. DISTRIBUCIÓN DE CALIBRE
+                        </button>
+                    </h2>
+                    <div id="secCalibres" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="d-flex justify-content-end mb-3 gap-2 border-bottom border-secondary pb-2">
+                                <button type="button" class="btn btn-sm btn-outline-warning" data-limpiar="calibres">
+                                    <i class="fas fa-eraser me-1"></i> Limpiar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success shadow-sm" id="btnGuardarCalibre">
+                                    <i class="fas fa-save me-1"></i> Guardar Calibres
+                                </button>
+                            </div>
+                            
+                            <div class="row g-2" id="contenedorCalibre">
+                                <div class="candado-info">
+                                    <i class="fas fa-lock fa-2x mb-2"></i>
+                                    <h6 class="text-uppercase mb-1">Lote Nuevo (En Espera)</h6>
+                                    <small>Presiona <b>Guardar Encabezado</b> para generar las cajas.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#secDefectos">
+                            ⚠️ III. MATRIZ DE DEFECTOS POR CATEGORÍA
+                        </button>
+                    </h2>
+                    <div id="secDefectos" class="accordion-collapse collapse">
+                        <div class="accordion-body p-0">
+                            <div class="d-flex justify-content-end p-2 gap-2 border-bottom border-secondary mb-2">
+                                <button type="button" class="btn btn-sm btn-outline-warning" data-limpiar="defectos">
+                                    <i class="fas fa-eraser me-1"></i> Limpiar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success shadow-sm" onclick="guardarDefectosAjax()">
+                                    <i class="fas fa-save me-1"></i> Guardar Defectos
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-dark table-hover text-center m-0 align-middle" id="tablaDefectosObj">
+                                    <thead class="table-active">
+                                        <tr>
+                                            <th class="text-center border border-secondary" style="width: 40%; background-color: #161b22; color: #cdd9e5;">II. DEFECTOS</th>
+                                            <th class="text-center border border-secondary" style="width: 20%; color: #2ea043; background-color: #161b22;">Fancy (%)</th>
+                                            <th class="text-center border border-secondary" style="width: 20%; color: #f1c40f; background-color: #161b22;">Choice (%)</th>
+                                            <th class="text-center border border-secondary" style="width: 20%; color: #3fb950; background-color: #161b22;">Comercial (%)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-defectos">
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4 text-muted">
+                                                <i class="fas fa-lock fa-2x mb-2 text-warning"></i><br>
+                                                <small>Guarde el encabezado para habilitar defectos.</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#secEstimacion">
+                            📈 IV. ESTIMACIÓN DE FRUTA EXPORTABLE
+                        </button>
+                    </h2>
+                    <div id="secEstimacion" class="accordion-collapse collapse">
+                        <div class="accordion-body p-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-5 text-end">
+                                    <label class="mb-0 fs-6 text-uppercase">Porcentaje Estimación (%):</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="hidden" id="est_codigo" value="1">
+                                    <input type="number" class="form-control text-center text-warning fw-bold fs-5" id="est_valor" step="0.01" placeholder="0.00" min="0" max="100" oninput="if(parseFloat(this.value)>100)this.value=100;if(parseFloat(this.value)<0)this.value=0;">
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-success shadow-sm fw-bold" onclick="guardarEstimacionAjax()">
+                                        <i class="fas fa-save me-1"></i> Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#secLiberacion">
+                            ✅ V. RESOLUCIÓN DE LOTE Y OBSERVACIONES
+                        </button>
+                    </h2>
+                    <div id="secLiberacion" class="accordion-collapse collapse">
+                        <div class="accordion-body p-3">
+                            <div class="row mb-3 align-items-center border-bottom border-secondary pb-3">
+                                <div class="col-md-3 text-end">
+                                    <label class="mb-0 fs-6">RESOLUCIÓN:</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-check form-check-inline me-4">
+                                        <input class="form-check-input" type="radio" name="reslot_radio" id="reslot_A" value="A">
+                                        <label class="form-check-label fw-bold" for="reslot_A" style="color: #3fb950 !important;">
+                                            <i class="fas fa-check-circle me-1"></i>PRODUCTO LIBERADO
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="reslot_radio" id="reslot_R" value="R">
+                                        <label class="form-check-label fw-bold" for="reslot_R" style="color: #f85149 !important;">
+                                            <i class="fas fa-times-circle me-1"></i>PRODUCTO OBJETADO
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FILA DIVIDIDA: TEXTO A LA IZQUIERDA / EVIDENCIA A LA DERECHA -->
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <label>OBSERVACIONES GENERALES (Máx. 600 caracteres):</label>
+                                    <textarea id="observacion_texto" class="form-control text-light" rows="6" maxlength="600" placeholder="Escriba aquí cualquier observación técnica del lote..." style="background-color: #0d1117 !important; border-color: #3f444a;"></textarea>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <label>EVIDENCIA FOTOGRÁFICA (OPCIONAL, PUEDEN SER VARIAS):</label>
+                                    <div class="border border-secondary rounded p-2 text-center d-flex flex-column gap-2" style="background-color: #0d1117; min-height: 140px; justify-content: center;">
+                                        <!-- Input File real, oculto: lo dispara el botón "Tomar Foto". Un solo -->
+                                        <!-- archivo, capture="environment" hace que en celular/tablet abra la -->
+                                        <!-- cámara directo (en PC, si no hay cámara, cae a elegir un archivo). -->
+                                        <input type="file" id="inputCamara" accept="image/*" capture="environment" class="d-none" onchange="subirFotoEvidencia(this)">
+
+                                        <!-- Input File real, oculto: lo dispara el botón "Adjuntar Fotos". Sin -->
+                                        <!-- capture (abre la galería/explorador normal) y con "multiple" para -->
+                                        <!-- poder elegir varias fotos ya tomadas de una sola vez. -->
+                                        <input type="file" id="inputGaleria" accept="image/*" multiple class="d-none" onchange="subirFotoEvidencia(this)">
+
+                                        <!-- Botones grandes y táctiles que reemplazan el input gris nativo -->
+                                        <button type="button" id="btnTomarFoto" class="btn btn-warning fw-bold w-100" onclick="document.getElementById('inputCamara').click();">
+                                            <i class="fas fa-camera me-1"></i> Tomar Foto
+                                        </button>
+                                        <button type="button" id="btnAdjuntarEvidencia" class="btn btn-warning fw-bold w-100" onclick="document.getElementById('inputGaleria').click();">
+                                            <i class="fas fa-paperclip me-1"></i> Adjuntar Fotos
+                                        </button>
+
+                                        <!-- "Cola" de fotos elegidas pero TODAVÍA no subidas. Cada vez que se -->
+                                        <!-- elige una foto (cámara o adjuntar) se agrega acá como miniatura, en -->
+                                        <!-- vez de subirse al toque; así se pueden ir juntando varias sin -->
+                                        <!-- depender de Ctrl+Click en el explorador de archivos de Windows. -->
+                                        <div id="colaFotosEvidenciaPreview" class="d-flex flex-wrap gap-2 justify-content-center" style="display:none;"></div>
+                                        <button type="button" id="btnSubirColaEvidencias" class="btn btn-success fw-bold w-100" style="display:none;" onclick="subirColaFotosEvidencia()">
+                                            <i class="fas fa-upload me-1" id="iconoSubirCola"></i><span id="textoSubirCola">Subir Fotos</span> (<span id="cantColaEvidencias">0</span>)
+                                        </button>
+
+                                        <!-- Abre la galería con todas las fotos ya cargadas para esta planilla -->
+                                        <button type="button" id="btnVerEvidencias" class="btn btn-outline-info fw-bold w-100" onclick="abrirModalEvidencias()">
+                                            <i class="fas fa-images me-1"></i> Ver Evidencias
+                                            <span id="badgeEvidencias" class="badge bg-secondary ms-1">0</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-end mt-3">
+                                <button type="button" class="btn btn-success shadow-sm fw-bold" onclick="guardarLiberacionAjax()">
+                                    <i class="fas fa-save me-1"></i> Guardar Resolución
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="d-flex justify-content-end mt-4 pt-3 border-top border-secondary gap-2">
+                <button type="button" class="btn btn-success shadow fw-bold" id="btnSubmit" style="font-size: 1.1rem; padding: 10px 30px;">
+                    <i class="fas fa-check-double me-1"></i> GUARDAR PLANILLA COMPLETA
+                </button>
+                <button type="button" class="btn btn-outline-danger shadow fw-bold" id="btnGenerarPDF" disabled style="font-size: 1.1rem; padding: 10px 30px;">
+                    <i class="fas fa-file-pdf me-1"></i> GENERAR PDF
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLotes" tabindex="-1" data-bs-theme="dark">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="background-color: var(--bg-panel); border: 1px solid var(--border-color);">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title text-warning"><i class="fas fa-box-open me-2"></i>Lotes Disponibles</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-dark table-hover m-0 align-middle" id="tablaModalLotes">
+                        <thead class="table-active">
+                            <tr>
+                                <th class="text-left-aligned">Nº Lote</th>
+                                <th class="text-left-aligned">Variedad</th>
+                                <th class="text-right-aligned">Guía</th>
+                                <th class="text-right-aligned">Recepción</th>
+                                <th class="text-right-aligned">Bultos</th>
+                                <th class="text-right-aligned">KGs</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalPlanillas" tabindex="-1" data-bs-theme="dark">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="background-color: var(--bg-panel); border: 1px solid var(--border-color);">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title text-info"><i class="fas fa-folder-open me-2"></i>Planillas Creadas</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-dark table-hover m-0 align-middle" id="tablaModalPlanillas">
+                        <thead class="table-active">
+                            <tr>
+                                <th class="text-center">Nº Planilla</th>
+                                <th class="text-center">Lote</th>
+                                <th class="text-center">Fecha</th>
+                                <th class="text-center">KGs</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEvidencias" tabindex="-1" data-bs-theme="dark">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="background-color: var(--bg-panel); border: 1px solid var(--border-color);">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title text-warning"><i class="fas fa-images me-2"></i>Evidencias Fotográficas</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="chkSeleccionarTodasEvidencias" onchange="toggleSeleccionarTodasEvidencias(this.checked)">
+                        <label class="form-check-label small text-muted" for="chkSeleccionarTodasEvidencias">Seleccionar todas</label>
+                    </div>
+                    <button type="button" id="btnBorrarSeleccionadas" class="btn btn-sm btn-outline-danger fw-bold" disabled onclick="borrarEvidenciasSeleccionadas()">
+                        <i class="fas fa-trash me-1" id="iconoBorrarSeleccionadas"></i><span id="textoBorrarSeleccionadas">Borrar seleccionadas</span> (<span id="cantSeleccionadas">0</span>)
+                    </button>
+                </div>
+                <div class="row g-3" id="galeriaEvidencias" style="max-height: 60vh; overflow-y: auto;">
+                    <div class="col-12 text-center text-muted py-4">Sin evidencias cargadas.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalPDF" tabindex="-1" data-bs-theme="dark">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content" style="background-color: var(--bg-panel); border: 1px solid var(--border-color);">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title text-danger"><i class="fas fa-file-pdf me-2"></i>Planilla PDF (POE023)</h5>
+                <div class="d-flex gap-2 align-items-center">
+                    <a id="btnDescargarPDF" href="#" class="btn btn-sm btn-outline-success fw-bold" download>
+                        <i class="fas fa-download me-1"></i> Descargar
+                    </a>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+            <div class="modal-body p-0" style="height: 80vh;">
+                <iframe id="iframePDF" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="config-calidad" type="application/json">{{ config_calidad_json|safe }}</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="{% static 'js/utils.js' %}?v=122"></script>
+<script src="{% static 'js/cascada.js' %}?v=120"></script>
+<script src="{% static 'js/lotes.js' %}?v=122"></script>
+<script src="{% static 'js/planillas_mgmt.js' %}?v=122"></script>
+<script src="{% static 'js/planilla.js' %}?v=120"></script>
+<script src="{% static 'js/planilla_final.js' %}?v=120"></script>
+
+<script>
+    // ==========================================================
+    // 📸 EVIDENCIA FOTOGRÁFICA: varias fotos por planilla.
+    // "Agregar Foto" sube al toque (no reemplaza las anteriores).
+    // "Ver Evidencias" abre la galería para revisarlas y borrar la que sobre.
+    // ==========================================================
+    let modalEvidenciasInstance = null;
+
+    function datosPlanillaActual() {
+        return {
+            especieId: document.getElementById('especie_id_hidden').value,
+            cliente: document.getElementById('selExp').value,
+            planta: document.getElementById('selPlanta').value,
+            planilla: document.getElementById('nro_planilla').value
+        };
+    }
+
+    // Sube UNA foto puntual (una sola llamada al backend) y devuelve la promesa
+    // con el resultado, para poder encadenarlas una por una desde el loop de abajo.
+    function subirUnaFoto(d, csrfToken, archivo) {
+        const fd = new FormData();
+        if (csrfToken) fd.append('csrfmiddlewaretoken', csrfToken.value);
+        fd.append('exportador_id', d.cliente);
+        fd.append('planta_id', d.planta);
+        fd.append('nro_planilla', d.planilla);
+        fd.append('evidencia_foto', archivo);
+
+        return fetch(`/subir-evidencia/${d.especieId}/`, { method: 'POST', body: fd })
+            .then(r => r.json());
+    }
+
+    // "Cola" de fotos ya elegidas (con cámara o adjuntar) pero TODAVÍA no
+    // subidas al servidor. Cada elemento: { file: File, previewUrl: string }.
+    // Así el operario puede ir juntando varias fotos de a una (sin depender
+    // de Ctrl+Click en el explorador de Windows) y subirlas todas juntas
+    // cuando quiera con el botón "Subir Fotos".
+    let colaFotosEvidencia = [];
+
+    // La llama cualquiera de los dos <input type="file"> (cámara o galería) apenas
+    // el inspector elige/saca una o varias fotos. NO las sube al toque: las agrega
+    // a la cola de arriba como miniatura, para que se puedan seguir sumando más.
+    window.subirFotoEvidencia = function(input) {
+        if (!input.files || input.files.length === 0) return;
+
+        Array.from(input.files).forEach(file => {
+            colaFotosEvidencia.push({ file, previewUrl: URL.createObjectURL(file) });
+        });
+        input.value = ''; // limpio para poder volver a elegir el mismo archivo si hace falta
+
+        renderizarColaFotosEvidencia();
+    };
+
+    function renderizarColaFotosEvidencia() {
+        const cont = document.getElementById('colaFotosEvidenciaPreview');
+        const btnSubir = document.getElementById('btnSubirColaEvidencias');
+        const cant = document.getElementById('cantColaEvidencias');
+        if (!cont || !btnSubir) return;
+
+        if (colaFotosEvidencia.length === 0) {
+            cont.style.display = 'none';
+            cont.innerHTML = '';
+            btnSubir.style.display = 'none';
+            return;
+        }
+
+        cont.style.display = 'flex';
+        btnSubir.style.display = 'block';
+        if (cant) cant.textContent = String(colaFotosEvidencia.length);
+
+        cont.innerHTML = '';
+        colaFotosEvidencia.forEach((item, i) => {
+            const miniatura = document.createElement('div');
+            miniatura.className = 'position-relative';
+            miniatura.style.cssText = 'width:56px; height:56px;';
+            miniatura.innerHTML = `
+                <img src="${item.previewUrl}" style="width:56px; height:56px; object-fit:cover; border-radius:4px; border:1px solid #6e7681;">
+                <button type="button" class="btn btn-danger position-absolute p-0 d-flex align-items-center justify-content-center"
+                        style="top:-6px; right:-6px; width:18px; height:18px; border-radius:50%; font-size:10px; line-height:1;"
+                        title="Quitar esta foto de la lista" onclick="quitarFotoDeCola(${i})">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            cont.appendChild(miniatura);
+        });
+    }
+
+    // Saca una foto de la cola ANTES de subirla (el operario se arrepintió o
+    // se equivocó de foto). No borra nada del servidor, solo de esta lista local.
+    window.quitarFotoDeCola = function(indice) {
+        const item = colaFotosEvidencia[indice];
+        if (item) URL.revokeObjectURL(item.previewUrl);
+        colaFotosEvidencia.splice(indice, 1);
+        renderizarColaFotosEvidencia();
+    };
+
+    // Sube TODAS las fotos que estén en la cola, una por una en orden (así no
+    // saturamos el servidor con varias fotos pesadas a la vez), y al final
+    // refresca la galería una sola vez.
+    window.subirColaFotosEvidencia = function() {
+        if (colaFotosEvidencia.length === 0) return;
+
+        const d = datosPlanillaActual();
+        if (!d.planilla || d.planilla === '0') {
+            alert('⚠️ Debe guardar el Encabezado primero antes de subir las fotos.');
+            return;
+        }
+
+        const archivos = colaFotosEvidencia.slice(); // copia: la cola se va a vaciar al terminar
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+
+        const btnCamara = document.getElementById('btnTomarFoto');
+        const btnAdjuntar = document.getElementById('btnAdjuntarEvidencia');
+        const btnSubir = document.getElementById('btnSubirColaEvidencias');
+        const iconoSubir = document.getElementById('iconoSubirCola');
+        const textoSubir = document.getElementById('textoSubirCola');
+        [btnCamara, btnAdjuntar, btnSubir].forEach(b => { if (b) b.disabled = true; });
+
+        let ok = 0;
+        let fallidas = 0;
+
+        function marcarProgreso(i) {
+            if (iconoSubir) iconoSubir.className = 'fas fa-spinner fa-spin me-1';
+            if (textoSubir) textoSubir.textContent = archivos.length > 1 ? `Subiendo ${i + 1}/${archivos.length}` : 'Subiendo';
+        }
+
+        // Encadenamos las subidas una tras otra con reduce(), así van en orden y
+        // no se pisan entre sí.
+        archivos.reduce((promesaPrevia, item, i) => {
+            return promesaPrevia.then(() => {
+                marcarProgreso(i);
+                return subirUnaFoto(d, csrfToken, item.file)
+                    .then(data => {
+                        if (data.estado === 'Exito') {
+                            ok++;
+                        } else {
+                            fallidas++;
+                            console.error('Error al subir una foto:', data.mensaje);
+                        }
+                    })
+                    .catch(() => { fallidas++; });
+            });
+        }, Promise.resolve())
+            .then(() => {
+                // Las que se subieron bien (y las que fallaron también, para no
+                // dejar la cola confusa) salen de la lista; si alguna falló el
+                // operario la vuelve a elegir con el botón normal.
+                archivos.forEach(item => URL.revokeObjectURL(item.previewUrl));
+                colaFotosEvidencia = [];
+                renderizarColaFotosEvidencia();
+                window.cargarListaEvidencias();
+                if (fallidas > 0) {
+                    alert(`⚠️ Se subieron ${ok} de ${archivos.length} foto(s). ${fallidas} fallaron, vuelva a elegir esas.`);
+                }
+            })
+            .finally(() => {
+                [btnCamara, btnAdjuntar, btnSubir].forEach(b => { if (b) b.disabled = false; });
+                if (iconoSubir) iconoSubir.className = 'fas fa-upload me-1';
+                if (textoSubir) textoSubir.textContent = 'Subir Fotos';
+            });
+    };
+
+    // Trae del servidor todas las fotos vigentes de la planilla actual y
+    // refresca el numerito del botón + la galería del modal.
+    window.cargarListaEvidencias = function() {
+        const d = datosPlanillaActual();
+        const badge = document.getElementById('badgeEvidencias');
+
+        if (!d.planilla || d.planilla === '0') {
+            if (badge) badge.textContent = '0';
+            renderizarGaleriaEvidencias([]);
+            return;
+        }
+
+        fetch(`/api/listar-evidencias/${d.especieId}/?planilla=${d.planilla}&cliente=${d.cliente}&planta=${d.planta}`)
+            .then(r => r.json())
+            .then(data => {
+                // La lista que devuelve el servidor ya viene solo con las vigentes
+                // (las borradas no se listan ni se muestran acá).
+                const lista = (data.estado === 'Exito') ? data.evidencias : [];
+                if (badge) badge.textContent = String(lista.length);
+                renderizarGaleriaEvidencias(lista);
+            })
+            .catch(() => {});
+    };
+
+    // Códigos (ccri_codigo) de las fotos tildadas en la galería, para poder
+    // borrar varias de un tirón con "Borrar seleccionadas".
+    let evidenciasSeleccionadas = new Set();
+
+    function renderizarGaleriaEvidencias(lista) {
+        const cont = document.getElementById('galeriaEvidencias');
+        if (!cont) return;
+
+        // Cada vez que se refresca la lista (se abrió el modal, se subió o se
+        // borró una foto) partimos de una selección limpia.
+        evidenciasSeleccionadas.clear();
+        resetBotonBorrarSeleccionadasUI();
+        const chkTodas = document.getElementById('chkSeleccionarTodasEvidencias');
+        if (chkTodas) chkTodas.checked = false;
+
+        if (!lista || lista.length === 0) {
+            cont.innerHTML = '<div class="col-12 text-center text-muted py-4">Sin evidencias cargadas.</div>';
+            return;
+        }
+
+        cont.innerHTML = '';
+        lista.forEach(ev => {
+            cont.innerHTML += `
+                <div class="col-6 col-md-4">
+                    <div class="position-relative border border-secondary rounded overflow-hidden" style="background-color:#0d1117;">
+                        <input type="checkbox" class="form-check-input evidencia-check position-absolute top-0 start-0 m-1"
+                               style="width:1.2rem; height:1.2rem; z-index:2; cursor:pointer;"
+                               data-codigo="${ev.codigo}" title="Seleccionar esta foto"
+                               onchange="toggleSeleccionEvidencia(${ev.codigo}, this.checked)">
+                        <img src="${ev.url}" class="w-100" style="height: 130px; object-fit: cover; cursor: pointer;"
+                             onclick="alternarSeleccionEvidencia(${ev.codigo}, this)"
+                             ondblclick="event.preventDefault(); abrirFotoEvidenciaCompleta('${ev.url}')"
+                             title="Click: seleccionar/deseleccionar. Doble click: ver en tamaño completo.">
+                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                title="Borrar esta foto" onclick="borrarFotoEvidencia(${ev.codigo})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <div class="p-1 text-center" style="font-size: 0.7rem; color:#8b949e;">Cargada: ${ev.fecha || ''}</div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Borra UNA foto puntual (una sola llamada al backend) y devuelve la
+    // promesa con el resultado — la usan tanto el borrado individual (el
+    // tacho de cada foto) como el borrado en lote de abajo.
+    function borrarUnaEvidencia(d, csrfToken, codigo) {
+        const fd = new FormData();
+        if (csrfToken) fd.append('csrfmiddlewaretoken', csrfToken.value);
+        fd.append('exportador_id', d.cliente);
+        fd.append('planta_id', d.planta);
+        fd.append('nro_planilla', d.planilla);
+        fd.append('ccri_codigo', codigo);
+
+        return fetch(`/borrar-evidencia/${d.especieId}/`, { method: 'POST', body: fd })
+            .then(r => r.json());
+    }
+
+    window.borrarFotoEvidencia = function(codigo) {
+        if (!confirm('¿Borrar esta foto de evidencia? No se puede deshacer.')) return;
+
+        const d = datosPlanillaActual();
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        borrarUnaEvidencia(d, csrfToken, codigo)
+            .then(data => {
+                if (data.estado === 'Exito') window.cargarListaEvidencias();
+                else alert('❌ ' + data.mensaje);
+            })
+            .catch(() => alert('Error de conexión al borrar la foto.'));
+    };
+
+    // Tilda/destilda una foto en la galería para el borrado en lote.
+    window.toggleSeleccionEvidencia = function(codigo, marcada) {
+        if (marcada) evidenciasSeleccionadas.add(codigo);
+        else evidenciasSeleccionadas.delete(codigo);
+        actualizarBotonBorrarSeleccionadas();
+    };
+
+    // Click SIMPLE sobre la FOTO misma = tilda/destilda al toque (sin tener
+    // que apuntarle justo al checkbox chiquito), para poder ir seleccionando
+    // varias fotos rápido una tras otra. El checkbox sigue funcionando
+    // exactamente igual que antes; esto solo agrega otra forma de marcarla.
+    window.alternarSeleccionEvidencia = function(codigo, imgEl) {
+        const contenedor = imgEl.closest('.position-relative');
+        const chk = contenedor ? contenedor.querySelector('.evidencia-check') : null;
+        if (!chk) return;
+        chk.checked = !chk.checked;
+        window.toggleSeleccionEvidencia(codigo, chk.checked);
+    };
+
+    // Doble click = ver la foto en tamaño completo en una pestaña nueva. Al
+    // ser doble click, el navegador primero dispara dos clicks simples (que
+    // tildan y después destildan la foto, quedando la selección como estaba)
+    // y recién ahí el dblclick; es un parpadeo mínimo e inofensivo.
+    window.abrirFotoEvidenciaCompleta = function(url) {
+        window.open(url, '_blank');
+    };
+
+    // Tilda o destilda TODAS las fotos que están visibles en la galería.
+    window.toggleSeleccionarTodasEvidencias = function(marcarTodas) {
+        document.querySelectorAll('#galeriaEvidencias .evidencia-check').forEach(chk => {
+            chk.checked = marcarTodas;
+            const codigo = parseInt(chk.dataset.codigo, 10);
+            if (marcarTodas) evidenciasSeleccionadas.add(codigo);
+            else evidenciasSeleccionadas.delete(codigo);
+        });
+        actualizarBotonBorrarSeleccionadas();
+    };
+
+    function resetBotonBorrarSeleccionadasUI() {
+        const icono = document.getElementById('iconoBorrarSeleccionadas');
+        const texto = document.getElementById('textoBorrarSeleccionadas');
+        if (icono) icono.className = 'fas fa-trash me-1';
+        if (texto) texto.textContent = 'Borrar seleccionadas';
+    }
+
+    function actualizarBotonBorrarSeleccionadas() {
+        const btn = document.getElementById('btnBorrarSeleccionadas');
+        const cant = document.getElementById('cantSeleccionadas');
+        if (cant) cant.textContent = String(evidenciasSeleccionadas.size);
+        if (btn) btn.disabled = evidenciasSeleccionadas.size === 0;
+    }
+
+    // Borra TODAS las fotos tildadas, una por una en orden (igual que la
+    // subida múltiple), para no mandar varias peticiones de borrado a la vez.
+    window.borrarEvidenciasSeleccionadas = function() {
+        const codigos = Array.from(evidenciasSeleccionadas);
+        if (codigos.length === 0) return;
+
+        const mensajeConfirm = codigos.length > 1
+            ? `¿Borrar estas ${codigos.length} fotos de evidencia? No se puede deshacer.`
+            : '¿Borrar esta foto de evidencia? No se puede deshacer.';
+        if (!confirm(mensajeConfirm)) return;
+
+        const d = datosPlanillaActual();
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+        const btn = document.getElementById('btnBorrarSeleccionadas');
+        const icono = document.getElementById('iconoBorrarSeleccionadas');
+        const texto = document.getElementById('textoBorrarSeleccionadas');
+        if (btn) btn.disabled = true;
+        if (icono) icono.className = 'fas fa-spinner fa-spin me-1';
+        if (texto) texto.textContent = 'Borrando';
+
+        let ok = 0;
+        let fallidas = 0;
+
+        codigos.reduce((promesaPrevia, codigo) => {
+            return promesaPrevia.then(() => {
+                return borrarUnaEvidencia(d, csrfToken, codigo)
+                    .then(data => {
+                        if (data.estado === 'Exito') ok++;
+                        else fallidas++;
+                    })
+                    .catch(() => { fallidas++; });
+            });
+        }, Promise.resolve())
+            .then(() => {
+                // cargarListaEvidencias() vuelve a dibujar la galería y con eso
+                // resetBotonBorrarSeleccionadasUI() ya deja el botón como al inicio.
+                window.cargarListaEvidencias();
+                if (fallidas > 0) {
+                    alert(`⚠️ Se borraron ${ok} de ${codigos.length} foto(s). ${fallidas} fallaron, intente de nuevo con esas.`);
+                }
+            });
+    };
+
+    window.abrirModalEvidencias = function() {
+        if (!modalEvidenciasInstance) {
+            modalEvidenciasInstance = new bootstrap.Modal(document.getElementById('modalEvidencias'));
+        }
+        window.cargarListaEvidencias();
+        modalEvidenciasInstance.show();
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const configCalidad = JSON.parse(document.getElementById('config-calidad').textContent);
+        if(window.CascadaCalidad) window.CascadaCalidad.init();
+        if(window.LotesCalidad) window.LotesCalidad.init();
+        if(window.PlanillaCalidad) window.PlanillaCalidad.init(configCalidad);
+        if(window.PlanillasMgmt) window.PlanillasMgmt.init();
+    });
+</script>
+</body>
+</html>
